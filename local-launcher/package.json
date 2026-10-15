@@ -1,0 +1,17 @@
+{
+  "name": "local-launcher",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite apps --host 127.0.0.1 --port 8765 --strictPort",
+    "test": "node --test",
+    "icons": "node tools/make-icons.mjs"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

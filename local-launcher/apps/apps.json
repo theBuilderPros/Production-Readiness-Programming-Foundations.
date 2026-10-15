@@ -1,0 +1,7 @@
+{
+  "apps": [
+    { "id": "sip", "name": "Sip", "file": "sip.html",
+      "mode": "window", "width": 380, "height": 560,
+      "description": "Water reminder" }
+  ]
+}

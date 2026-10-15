@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sip</title>
+<style>
+  :root { --ink:#12303d; --water:#2f8fc4; --sea:#e6f1f3; --glass:#9cc3cf; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; display:grid; place-items:center; background:var(--sea);
+         color:var(--ink); font:16px/1.5 "Avenir Next", "Segoe UI", system-ui, sans-serif; }
+  main { text-align:center; padding:24px; }
+  h1 { margin:0 0 4px; font-size:2rem; letter-spacing:-.02em; }
+  p { margin:0; }
+  .glass { position:relative; width:150px; height:220px; margin:28px auto 16px; overflow:hidden;
+           border:4px solid var(--glass); border-top-width:2px; border-radius:6px 6px 36px 36px;
+           background:#fff8; }
+  .water { position:absolute; left:0; right:0; bottom:0; height:100%; background:var(--water);
+           transition:height 1s linear; }
+  #time { font-size:2.4rem; font-variant-numeric:tabular-nums; margin-bottom:12px; }
+  .due #time { color:#b5471f; }
+  .due .water { height:0 !important; }
+  button { font:inherit; padding:12px 28px; border:0; border-radius:999px; background:var(--ink);
+           color:#fff; cursor:pointer; }
+  button:focus-visible, input:focus-visible { outline:3px solid var(--water); outline-offset:3px; }
+  label { display:block; margin-top:20px; font-size:.9rem; }
+  input { width:4.5em; font:inherit; padding:4px 8px; border:1px solid var(--glass); border-radius:6px; }
+  @media (prefers-reduced-motion: reduce) { .water { transition:none; } }
+</style>
+</head>
+<body>
+<main id="app">
+  <h1>Sip</h1>
+  <p id="msg"></p>
+  <div class="glass"><div class="water" id="water"></div></div>
+  <p id="time">90:00</p>
+  <button id="drank">I drank some water</button>
+  <label>Remind me every <input id="mins" type="number" min="1" value="90"> minutes</label>
+</main>
+<script>
+  const $ = id => document.getElementById(id);
+  const app = $("app"), water = $("water"), timeEl = $("time"), msg = $("msg"), mins = $("mins");
+  const WAIT = "Your glass drains. Drink when it's empty.";
+  let due = 0, pinged = false;
+  const total = () => Math.max(1, +mins.value || 90) * 60000;
+
+  function start() {                          // refill the glass, set the next reminder
+    due = Date.now() + total(); pinged = false;
+    app.classList.remove("due"); document.title = "Sip"; msg.textContent = WAIT;
+    localStorage.setItem("sip", JSON.stringify({ due, mins: mins.value }));
+  }
+  function beep() {                           // gentle two-tone chime
+    try {
+      const ctx = new AudioContext();
+      [660, 880].forEach((f, i) => {
+        const o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime + i * 0.25;
+        o.frequency.value = f; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.15, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+        o.start(t); o.stop(t + 0.4);
+      });
+    } catch (e) {}
+  }
+  function ping() {                           // fires once per cycle
+    pinged = true; beep();
+    msg.textContent = "Time for a glass of water.";
+    app.classList.add("due"); document.title = "💧 Drink water!";
+    if ("Notification" in window && Notification.permission === "granted")
+      new Notification("Sip", { body: "Time for a glass of water." });
+  }
+  function tick() {
+    const left = due - Date.now();
+    if (left <= 0 && !pinged) ping();
+    const s = Math.max(0, Math.ceil(left / 1000));
+    timeEl.textContent = String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+    if (!pinged) water.style.height = Math.min(100, left / total() * 100) + "%";
+  }
+  $("drank").onclick = () => {
+    if ("Notification" in window && Notification.permission === "default") Notification.requestPermission();
+    start(); tick();
+  };
+  mins.onchange = () => { start(); tick(); };
+  try { const s = JSON.parse(localStorage.getItem("sip")); if (s) { mins.value = s.mins; due = s.due; } } catch (e) {}
+  if (!due) start(); else msg.textContent = WAIT;
+  setInterval(tick, 1000); tick();
+</script>
+</body>
+</html>

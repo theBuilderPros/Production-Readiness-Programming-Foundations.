@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Local Apps</title>
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; width: 320px; font: 14px/1.4 system-ui, "Segoe UI", sans-serif; color: #12303d; }
+    h1 { margin: 0; padding: 12px 14px; font-size: 15px; border-bottom: 1px solid #e6f1f3; }
+    ul { list-style: none; margin: 0; padding: 6px; }
+    .row { display: block; width: 100%; text-align: left; padding: 10px 12px; border: 0; border-radius: 8px;
+           background: transparent; font: inherit; color: inherit; cursor: pointer; }
+    .row:hover { background: #e6f1f3; }
+    .row:focus-visible { outline: 3px solid #2f8fc4; outline-offset: 2px; }
+    .name { display: block; font-weight: 600; }
+    .desc { display: block; color: #527080; font-size: 12px; }
+    #error { padding: 14px; }
+    #error p { margin: 0 0 10px; }
+    button#retry { font: inherit; padding: 8px 16px; border: 0; border-radius: 999px; background: #12303d; color: #fff; cursor: pointer; }
+    button#retry:focus-visible { outline: 3px solid #2f8fc4; outline-offset: 2px; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <h1>Apps</h1>
+  <ul id="list"></ul>
+  <div id="error" hidden>
+    <p id="error-msg"></p>
+    <button id="retry" type="button">Retry</button>
+  </div>
+  <script type="module" src="launcher.js"></script>
+</body>
+</html>

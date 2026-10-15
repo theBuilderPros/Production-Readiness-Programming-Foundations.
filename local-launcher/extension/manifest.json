@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Local App Launcher",
+  "version": "1.0.0",
+  "description": "Lists and opens apps served by the local Vite dev server.",
+  "action": {
+    "default_popup": "launcher.html",
+    "default_title": "Local Apps"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["storage"],
+  "host_permissions": [
+    "http://localhost:8765/*",
+    "http://127.0.0.1:8765/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
