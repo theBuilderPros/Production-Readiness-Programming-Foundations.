@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'" />
+  <title>Desktop App Launcher</title>
+  <style>
+    body { font-family: "Segoe UI", system-ui, sans-serif; margin: 0; padding: 12px; background: #1e1f22; color: #eee; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    h1 { font-size: 15px; margin: 0; font-weight: 600; }
+    button { font: inherit; cursor: pointer; }
+    #refresh { background: #333; color: #eee; border: 1px solid #555; border-radius: 4px; padding: 4px 10px; }
+    #error-banner { display: none; background: #5a1d1d; border: 1px solid #a33; border-radius: 4px; padding: 8px; margin-bottom: 8px; }
+    #error-banner.show { display: block; }
+    .app-row { border: 1px solid #3a3a3a; border-radius: 6px; padding: 10px; margin-bottom: 8px; }
+    .app-name { font-weight: 600; }
+    .app-desc { color: #aaa; font-size: 12px; margin: 2px 0 8px; }
+    .controls { display: flex; gap: 6px; flex-wrap: wrap; }
+    .controls button { background: #2b6cb0; color: white; border: none; border-radius: 4px; padding: 5px 10px; }
+    .controls button.secondary { background: #444; }
+    .controls button.pinned { background: #2f855a; }
+    .empty { color: #888; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Local Apps</h1>
+    <button id="refresh" type="button">Refresh</button>
+  </header>
+  <div id="error-banner" role="alert"></div>
+  <div id="app-list"></div>
+  <script src="./launcher.js"></script>
+</body>
+</html>

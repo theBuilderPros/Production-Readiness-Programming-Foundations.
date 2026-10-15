@@ -1,0 +1,23 @@
+{
+  "appId": "com.thebuilderpros.desktoplauncher",
+  "productName": "Desktop App Launcher",
+  "directories": {
+    "output": "dist"
+  },
+  "files": [
+    "src/**/*",
+    "assets/**/*",
+    "package.json"
+  ],
+  "extraResources": [
+    { "from": "../local-launcher/apps", "to": "apps" }
+  ],
+  "win": {
+    "icon": "assets/app-icon.png",
+    "target": ["nsis", "portable"]
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
+  }
+}

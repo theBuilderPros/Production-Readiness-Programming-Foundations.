@@ -1,0 +1,22 @@
+{
+  "name": "desktop-launcher",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Offline desktop host for local HTML applications",
+  "author": "The Builder Pros",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "test:smoke": "electron tools/smoke.mjs",
+    "dist:win": "electron-builder --win --config electron-builder.json"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "devDependencies": {
+    "electron": "44.7.2",
+    "electron-builder": "26.15.3"
+  }
+}

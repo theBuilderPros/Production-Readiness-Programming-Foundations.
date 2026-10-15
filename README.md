@@ -212,3 +212,7 @@ The implementation was verified with 20 passing automated tests and HTTP checks 
 - [Implementation checklist](stepbystepplan.md)
 
 The phase 1 design spec takes precedence over the earlier brief for scope. In particular, popup and side panel behavior is deferred.
+
+## Desktop host (phase 2)
+
+An Electron Windows host for the same apps lives in `desktop-launcher/`. It opens Sip in an always-on-top desktop window without Vite or a browser extension. See [desktop-launcher/README.md](desktop-launcher/README.md). The Vite + extension workflow above is unchanged.
